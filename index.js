@@ -5,3 +5,41 @@ class Node {
     this.right = null;
   }
 }
+
+class Tree {
+  constructor(array) {
+    const sortedArray = [...new Set(array)].sort((a, b) => a - b); // convert Array to Set to remove duplicates and then sort Set
+    this.root = this.buildTree(sortedArray, 0, sortedArray.length - 1);
+  }
+
+  buildTree(array, start, end) {
+    if (start > end) return null;
+
+    const mid = Math.floor((start + end) / 2);
+    const node = new Node(array[mid]);
+
+    node.left = this.buildTree(array, start, mid - 1);
+    node.right = this.buildTree(array, mid + 1, end);
+
+    return node;
+  } 
+
+  prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+};
+}
+
+// const testArray = [1, 2, 3];
+const testArray = [1, 2, 3, 5, 4];
+// const testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const tree = new Tree(testArray);
+tree.prettyPrint();
