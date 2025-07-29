@@ -25,8 +25,8 @@ class Tree {
   } 
 
   insert(value, node = this.root) {
-    if (!node) return new Node(value);
-    if (value === node.value) return node;
+    if (node === null) return new Node(value);
+    if (value === node.data) return node; // ignore duplicates
     if (value < node.data) {
       node.left = this.insert(value, node.left);
     } else {
@@ -36,14 +36,32 @@ class Tree {
   }
 
   deleteItem(value, node = this.root) {
-    if (!node) return new Node(value);
-    if (value === node.value) return node;
+    if (node === null) return null;
+
     if (value < node.data) {
-      node.left = this.insert(value, node.left);
+      node.left = this.deleteItem(value, node.left);
+    } else if (value > node.data) {
+      node.right = this.deleteItem(value, node.right);
     } else {
-      node.right = this.insert(value, node.right);
+      if (node.left === null) {
+        return node.right;
+      } else if (node.right === null) {
+        return node.left;
+      } else {
+        let successor = this.#minValueNode(node.right);
+        node.data = successor.data;
+        node.right = this.deleteItem(successor.data, node.right);
+      }
     }
     return node;
+  }
+
+  #minValueNode(node) {
+    let current = node;
+    while (current.left !== null) {
+      current = current.left;
+    }
+    return current;
   }
 
   prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
@@ -66,4 +84,6 @@ const testArray = [1, 2, 3, 5, 4];
 const tree = new Tree(testArray);
 tree.prettyPrint();
 tree.insert(6);
+tree.prettyPrint();
+tree.deleteItem(4);
 tree.prettyPrint();
