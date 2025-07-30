@@ -95,12 +95,52 @@ export class Tree {
         queue.push(current.right);
       }
     }
-   
   }
-  // inOrderForEach(callback)
-  // preOrderForEach(callback)
-  // postOrderForEach(callback)
 
+  inOrderForEach(callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('A callback function is required for inOrderForEach.');
+    }
+
+    const traverse = (node) => {
+      if (node === null) return;
+      traverse(node.left);
+      callback(node);
+      traverse(node.right);
+    };
+
+    traverse(this.root);
+  }
+
+  preOrderForEach(callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('A callback function is required for preOrderForEach.');
+    }
+
+    const traverse = (node) => {
+      if (node === null) return;
+      callback(node);
+      traverse(node.left);
+      traverse(node.right);
+    };
+
+    traverse(this.root);
+  }
+
+  postOrderForEach(callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('A callback function is required for postOrderForEach.');
+    }
+
+    const traverse = (node) => {
+      if (node === null) return;
+      traverse(node.left);
+      traverse(node.right);
+      callback(node);
+    };
+
+    traverse(this.root);
+  }
 
   prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
   if (node === null) {
