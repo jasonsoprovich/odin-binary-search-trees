@@ -75,7 +75,27 @@ export class Tree {
   }
 
   levelOrderForEach(callback) {
+    if (typeof callback !== 'function') {
+      throw new Error('A callback function is required for levelOrderForEach.');
+    }
 
+    if (this.root === null) return;
+
+    const queue = [];
+    queue.push(this.root);
+
+    while (queue.length > 0) {
+      const current = queue.shift();
+      callback(current);
+
+      if (current.left !== null) {
+        queue.push(current.left);
+      }
+      if (current.right !== null) {
+        queue.push(current.right);
+      }
+    }
+   
   }
   // inOrderForEach(callback)
   // preOrderForEach(callback)
