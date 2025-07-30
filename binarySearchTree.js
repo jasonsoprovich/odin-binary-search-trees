@@ -1,4 +1,4 @@
-class Node {
+export class Node {
   constructor(data) {
     this.data = data;
     this.left = null;
@@ -6,7 +6,7 @@ class Node {
   }
 }
 
-class Tree {
+export class Tree {
   constructor(array) {
     const sortedArray = [...new Set(array)].sort((a, b) => a - b); // convert Array to Set to remove duplicates and then sort Set
     this.root = this.buildTree(sortedArray, 0, sortedArray.length - 1);
@@ -74,6 +74,14 @@ class Tree {
     }
   }
 
+  levelOrderForEach(callback) {
+
+  }
+  // inOrderForEach(callback)
+  // preOrderForEach(callback)
+  // postOrderForEach(callback)
+
+
   prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
@@ -87,19 +95,3 @@ class Tree {
   }
 };
 }
-
-// const testArray = [1, 2, 3];
-const testArray = [1, 2, 3, 5, 4];
-// const testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = new Tree(testArray);
-tree.prettyPrint();
-
-// test insert / delete
-tree.insert(6);
-tree.prettyPrint();
-tree.deleteItem(4);
-tree.prettyPrint();
-
-// test find
-console.log('Find 3', tree.find(3)); // found
-console.log('Find 99', tree.find(99)); // not found
