@@ -65,12 +65,12 @@ export class Tree {
   }
 
   find(value, node = this.root) {
-    if (node === null) return new Node(value);
+    if (node === null) return null;
     if (value === node.data) return node;
     if (value < node.data) {
-      return node.left = this.find(value, node.left);
+      return this.find(value, node.left);
     } else {
-      return node.right = this.find(value, node.right);
+      return this.find(value, node.right);
     }
   }
 
