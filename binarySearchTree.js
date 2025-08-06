@@ -168,6 +168,32 @@ export class Tree {
     return findDepth(this.root, value);
   }
 
+  isBalanced() {
+    const checkBalance = (node) => {
+      if (node === null) return { balanced: true, height: -1};
+
+      const left = checkBalance(node.left);
+      const right = checkBalance(node.right);
+
+      if (!left.balanced || !right.balanced) {
+        return { balanced: false, height: 0 };
+      }
+
+      const heightDiff = Math.abs(left.height - right.height);
+      const balanced = heightDiff <= 1;
+      const height = Math.max(left.height, right.height) + 1;
+
+      return { balanced, height };
+    };
+    return checkBalance(this.root).balanced;
+  }
+
+  rebalance() {
+    const arr = [];
+    this.inOrderForEach((node) => arr.push(node.data));
+    this.root = this.buildTree(arr, 0, arr.length -1);
+  }
+
   prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
