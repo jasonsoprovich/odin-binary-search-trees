@@ -142,6 +142,32 @@ export class Tree {
     traverse(this.root);
   }
 
+  height(value) {
+    const node = this.find(value);
+    if (node === null) return null;
+
+    const getHeight = (node) => {
+      if (node === null) return -1;
+      return Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+    };
+    return getHeight(node);
+  }
+
+  depth(value) {
+    const findDepth = (node, target, currentDepth = 0) => {
+      if (node === null) return null;
+      if (node.data === target) return currentDepth;
+      
+      if (target < node.data) {
+        return findDepth(node.left, target, currentDepth + 1);
+      } else {
+        return findDepth(node.right, target, currentDepth + 1);
+      }
+    };
+    
+    return findDepth(this.root, value);
+  }
+
   prettyPrint = (node = this.root, prefix = '', isLeft = true) => {
   if (node === null) {
     return;
