@@ -24,24 +24,32 @@ export class Tree {
     return node;
   } 
 
-  insert(value, node = this.root) {
+  insert(value) {
+    this.root = this._insert(this.root, value);
+  }
+
+  _insert(node, value) {
     if (node === null) return new Node(value);
     if (value === node.data) return node; // ignore duplicates
     if (value < node.data) {
-      node.left = this.insert(value, node.left);
+      node.left = this._insert(node.left, value);
     } else {
-      node.right = this.insert(value, node.right);
+      node.right = this.insert(node.right, value);
     }
     return node;
   }
 
-  deleteItem(value, node = this.root) {
+  deleteItem(value) {
+    this.root = this._deleteItem(this.root, value);
+  }
+
+  _deleteItem(value, node = this.root) {
     if (node === null) return null;
 
     if (value < node.data) {
-      node.left = this.deleteItem(value, node.left);
+      node.left = this._deleteItem(node.left, value);
     } else if (value > node.data) {
-      node.right = this.deleteItem(value, node.right);
+      node.right = this._deleteItem(node.right, value);
     } else {
       if (node.left === null) {
         return node.right;
@@ -50,7 +58,7 @@ export class Tree {
       } else {
         let successor = this.#minValueNode(node.right);
         node.data = successor.data;
-        node.right = this.deleteItem(successor.data, node.right);
+        node.right = this._deleteItem(successor.data, node.right);
       }
     }
     return node;

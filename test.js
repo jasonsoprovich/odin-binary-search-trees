@@ -1,4 +1,4 @@
-import { Node, Tree } from './binarySearchTree.js';
+import { Tree } from './binarySearchTree.js';
 
 // // testing
 
