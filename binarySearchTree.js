@@ -34,7 +34,7 @@ export class Tree {
     if (value < node.data) {
       node.left = this._insert(node.left, value);
     } else {
-      node.right = this.insert(node.right, value);
+      node.right = this._insert(node.right, value);
     }
     return node;
   }
